@@ -1,40 +1,47 @@
 #!/usr/bin/python3
-'''Module to find Pascal's Triangle integers'''
+"""
+function def pascal_triangle(n): that returns a list of lists of integers
+representing the Pascal's triangle of n
+"""
 
 
 def pascal_triangle(n):
-    '''
-    Function to find Pascal's Triangle integers
+    """returns a list of lists of integers representing the Pascal's
+    triangle of n
 
-        Parameters:
-            n (int): The number of row's of Pascal's triangle
+    Args:
+        n (integer): number of rows
 
-        Returns:
-            pascal_triangle (list): Binary string of the sum of a and b
-    '''
-    pascal_triangle = list()
-
+    Returns:
+        list: integers representing Pascal's triangle.
+    """
+    # if n is less or 0 return an empty list
     if n <= 0:
-        return pascal_triangle
+        return []
 
-    # Add first 1.
-    if n > 0:
-        pascal_triangle.append([1])
+    else:
+        # Initialize a variable called triangle with a list containing a
+        # single element, [1], which represents the first row of the triangle.
+        triangle = [[1]]
 
-    # Add second line.
-    if n > 1:
-        pascal_triangle.append([1, 1])
+        for i in range(1, n):
+            # On each iteration of the loop, a new list is created and
+            # appended to the triangle variable. This list starts with a
+            # single element, 1, which represents the first element of the
+            # new row.
+            triangle.append([1])
 
-    for x in range(3, n+1):
-        pascal_triangle.append([0] * x)
+            # The function then enters a nested loop that iterates over the
+            # elements in the previous row (the row with an index of i-1) and
+            # calculates the value of each element in the new row (the row
+            # with an index of i) based on the sum of the elements in the
+            # previous row that are directly above and to the left and right
+            # of the current element.
+            for j in range(1, i):
+                triangle[i].append(triangle[i-1][j-1] + triangle[i-1][j])
 
-        # Set first and last 1
-        pascal_triangle[x-1][0] = 1
-        pascal_triangle[x-1][x-1] = 1
-
-        # Calculate middle numbers
-        for y in range(1, x-1):
-            pascal_triangle[x-1][y] = \
-                pascal_triangle[x-2][y-1] + pascal_triangle[x-2][y]
-
-    return pascal_triangle
+            # This process continues until all of the elements in the new row
+            # have been calculated, at which point a final 1 is appended to
+            # the end of the row to complete it.
+            triangle[i].append(1)
+        return triangle
